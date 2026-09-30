@@ -261,8 +261,29 @@
                                 <p class="text-sm text-slate-400 uppercase tracking-wider font-semibold">Estimated Total</p>
                                 <p class="text-xs text-slate-500 mt-1">*Final cost subject to detailed scoping</p>
                             </div>
-                            <div class="text-right">
+                                                        <div class="text-right">
                                 <p class="text-3xl font-bold text-amber-400" id="estimate-total">$0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Info Capture -->
+                    <div id="contact-info-section" class="bg-slate-900/80 rounded-xl p-6 sm:p-8 border border-slate-700 shadow-2xl relative overflow-hidden mb-8">
+                        <h3 class="text-xl font-bold text-white mb-6 border-b border-slate-700 pb-3">Contact Details</h3>
+                        <p class="text-slate-400 text-sm mb-6">Where should we send your official project breakdown and next steps?</p>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">Your Name <span class="text-cyan-500">*</span></label>
+                                <input type="text" id="contact_name" required class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 outline-none transition-all placeholder-slate-600">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">Email Address <span class="text-cyan-500">*</span></label>
+                                <input type="email" id="contact_email" required class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 outline-none transition-all placeholder-slate-600">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">Phone Number (Optional)</label>
+                                <input type="tel" id="contact_phone" class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 outline-none transition-all placeholder-slate-600">
                             </div>
                         </div>
                     </div>
@@ -536,8 +557,29 @@
             document.getElementById('client-next-steps').classList.remove('hidden');
         }
 
-        // EmailJS Send Function
+                // EmailJS Send Function
         function sendEmail() {
+            // Validate Contact Info First
+            const nameInput = document.getElementById('contact_name');
+            const emailInput = document.getElementById('contact_email');
+            const phoneInput = document.getElementById('contact_phone');
+            
+            let isValid = true;
+            if(!nameInput.value.trim()) { isValid = false; nameInput.classList.add('border-rose-500'); } else { nameInput.classList.remove('border-rose-500'); }
+            if(!emailInput.value.trim() || !emailInput.value.includes('@')) { isValid = false; emailInput.classList.add('border-rose-500'); } else { emailInput.classList.remove('border-rose-500'); }
+            
+            if(!isValid) {
+                const section = document.getElementById('contact-info-section');
+                section.classList.add('animate-pulse');
+                setTimeout(() => section.classList.remove('animate-pulse'), 300);
+                return; // Stop if invalid
+            }
+
+            // Append Contact Data to window.emailData
+            window.emailData.contactName = nameInput.value;
+            window.emailData.contactEmail = emailInput.value;
+            window.emailData.contactPhone = phoneInput.value || 'Not provided';
+
             const btn = document.getElementById('sales-email-btn');
             const originalText = btn.innerText;
             btn.innerText = 'Sending...';
