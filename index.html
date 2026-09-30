@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Discovery & Qualification Framework</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; /* Obsidian Base */ }
+        .hidden { display: none !important; }
+        
+        /* Custom radio/checkbox styling for dark theme */
+        input[type="radio"]:checked + div, input[type="checkbox"]:checked + div {
+            border-color: #06b6d4; /* Cyan-500 */
+            background-color: rgba(6, 182, 212, 0.1); 
+        }
+        
+        /* Smooth transitions for steps */
+        .step-container {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        
+        /* Premium Dark Glassmorphism effect */
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7); /* Slate-800 translucent */
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        /* Custom scrollbar for textareas */
+        textarea::-webkit-scrollbar { width: 8px; }
+        textarea::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); border-radius: 4px; }
+        textarea::-webkit-scrollbar-thumb { background: rgba(71, 85, 105, 0.8); border-radius: 4px; }
+    </style>
+</head>
+<body class="text-slate-300 antialiased min-h-screen flex items-center justify-center p-4 sm:p-8">
+
+    <!-- Main Container -->
+    <main class="w-full max-w-4xl glass-panel rounded-2xl overflow-hidden relative">
+        
+        <!-- Progress Bar (Cyan to Emerald Gradient) -->
+        <div class="h-2 w-full bg-slate-800">
+            <div id="progress-bar" class="h-full bg-gradient-to-r from-cyan-500 to-emerald-500 transition-all duration-300 ease-out w-1/4 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
+        </div>
+
+        <div class="p-8 sm:p-12">
+            <!-- Header -->
+            <div class="mb-10 text-center">
+                <h1 class="text-3xl font-bold text-white tracking-tight mb-2">Project Discovery</h1>
+                <p class="text-slate-400">Let's determine if we're the right fit to build your solution.</p>
+            </div>
+
+            <!-- Form Start -->
+            <form id="discoveryForm" onsubmit="handleFormSubmit(event)">
+                
+                <!-- ================= STEP 1: QUICK QUALIFICATION ================= -->
+                <section id="step1" class="step-container">
+                    <h2 class="text-xl font-semibold mb-6 border-b border-slate-700 pb-2 text-white">Phase 1: The Basics</h2>
+                    
+                    <div class="space-y-6">
+                        <!-- Q1: Trigger -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">What prompted you to start looking for a new website solution right now? <span class="text-cyan-500">*</span></label>
+                            <textarea id="q_trigger" rows="3" required class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 outline-none transition-all placeholder-slate-600" placeholder="e.g., We just acquired another company, our current site is crashing, we need more leads..."></textarea>
+                        </div>
+
+                        <!-- Q2: Project Type -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">Which best describes your project? <span class="text-cyan-500">*</span></label>
+                            <select id="q_projectType" required class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 outline-none appearance-none">
+                                <option value="" disabled selected class="text-slate-500">Select an option</option>
+                                <option value="marketing" class="bg-slate-800 text-white">Marketing / Brochure Website</option>
+                                <option value="lead_gen" class="bg-slate-800 text-white">Lead Generation Website</option>
+                                <option value="ecommerce" class="bg-slate-800 text-white">E-Commerce Store</option>
+                                <option value="portal" class="bg-slate-800 text-white">Customer Portal / Membership</option>
+                                <option value="software" class="bg-slate-800 text-white">Internal Tool / Web App</option>
+                            </select>
+                        </div>
+
+                        <!-- Q3: Budget (The Fork in the Road) -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">What is your estimated budget range? <span class="text-cyan-500">*</span></label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <label class="cursor-pointer relative">
+                                    <input type="radio" name="q_budget" value="1" required class="peer sr-only">
+                                    <div class="w-full px-4 py-3 border border-slate-700 bg-slate-900/30 rounded-lg text-center hover:bg-slate-800 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/20 transition-all">
+                                        <span class="font-medium text-sm text-slate-200 peer-checked:text-cyan-400">Under $3,000</span>
+                                        <p class="text-xs text-slate-500 mt-1 peer-checked:text-cyan-500/70">(Starter Packages)</p>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer relative">
+                                    <input type="radio" name="q_budget" value="2" class="peer sr-only">
+                                    <div class="w-full px-4 py-3 border border-slate-700 bg-slate-900/30 rounded-lg text-center hover:bg-slate-800 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/20 transition-all">
+                                        <span class="font-medium text-sm text-slate-200 peer-checked:text-cyan-400">$3,000 - $10,000</span>
+                                        <p class="text-xs text-slate-500 mt-1 peer-checked:text-cyan-500/70">(Growth Strategy)</p>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer relative">
+                                    <input type="radio" name="q_budget" value="3" class="peer sr-only">
+                                    <div class="w-full px-4 py-3 border border-slate-700 bg-slate-900/30 rounded-lg text-center hover:bg-slate-800 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/20 transition-all">
+                                        <span class="font-medium text-sm text-slate-200 peer-checked:text-cyan-400">$10,000 - $25,000</span>
+                                        <p class="text-xs text-slate-500 mt-1 peer-checked:text-cyan-500/70">(Custom Build)</p>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer relative">
+                                    <input type="radio" name="q_budget" value="4" class="peer sr-only">
+                                    <div class="w-full px-4 py-3 border border-slate-700 bg-slate-900/30 rounded-lg text-center hover:bg-slate-800 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/20 transition-all">
+                                        <span class="font-medium text-sm text-slate-200 peer-checked:text-cyan-400">$25,000+</span>
+                                        <p class="text-xs text-slate-500 mt-1 peer-checked:text-cyan-500/70">(Enterprise / Applications)</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 flex justify-end">
+                        <button type="button" onclick="nextStep(1)" class="bg-cyan-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-cyan-500 transition-colors shadow-[0_4px_14px_0_rgba(6,182,212,0.39)]">Next Step →</button>
+                    </div>
+                </section>
+
+                <!-- ================= STEP 2: BUSINESS & GOALS ================= -->
+                <section id="step2" class="step-container hidden">
+                    <h2 class="text-xl font-semibold mb-6 border-b border-slate-700 pb-2 text-white">Phase 2: Business Strategy</h2>
+                    
+                    <div class="space-y-6">
+                        <!-- Q4: Revenue Model -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">How does your business primarily make money? <span class="text-cyan-500">*</span></label>
+                            <select id="q_revenue" required class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 outline-none appearance-none">
+                                <option value="" disabled selected class="text-slate-500">Select an option</option>
+                                <option value="product" class="bg-slate-800 text-white">Product Sales</option>
+                                <option value="service" class="bg-slate-800 text-white">Service Sales</option>
+                                <option value="lead" class="bg-slate-800 text-white">Lead Generation for Sales Team</option>
+                                <option value="subscription" class="bg-slate-800 text-white">Subscriptions / Memberships</option>
+                            </select>
+                        </div>
+
+                        <!-- Q5: Success Definition -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">Twelve months after launch, what would make this project a huge success?</label>
+                            <textarea id="q_success" rows="2" class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 outline-none transition-all placeholder-slate-600"></textarea>
+                        </div>
+
+                        <!-- Q6: Executive Alignment (Emerald Accent) -->
+                        <div class="bg-emerald-900/10 p-5 rounded-lg border border-emerald-500/30">
+                            <label class="block text-sm font-bold text-emerald-400 mb-2">Beyond company goals, what does success personally mean for you? <span class="text-emerald-500">*</span></label>
+                            <p class="text-xs text-emerald-500/80 mb-3">e.g., "I need to impress leadership," "I need to reduce my own support workload."</p>
+                            <textarea id="q_executive" rows="2" required class="w-full px-4 py-3 rounded-lg bg-slate-900/60 border border-emerald-500/30 text-white focus:ring-2 focus:ring-emerald-500 outline-none placeholder-slate-600"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-between">
+                        <button type="button" onclick="prevStep(2)" class="text-slate-400 hover:text-white px-4 py-2 font-medium transition-colors">← Back</button>
+                        <button type="button" onclick="nextStep(2)" class="bg-cyan-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-cyan-500 transition-colors shadow-[0_4px_14px_0_rgba(6,182,212,0.39)]">Next Step →</button>
+                    </div>
+                </section>
+
+                <!-- ================= STEP 3: SCOPE & LOGISTICS ================= -->
+                <section id="step3" class="step-container hidden">
+                    <h2 class="text-xl font-semibold mb-6 border-b border-slate-700 pb-2 text-white">Phase 3: Scope & Readiness</h2>
+                    
+                    <div class="space-y-6">
+                        <!-- Q7: Content Readiness -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">How complete is your website content (text/images) today? <span class="text-cyan-500">*</span></label>
+                            <select id="q_content" required class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 outline-none appearance-none">
+                                <option value="" disabled selected class="text-slate-500">Select an option</option>
+                                <option value="3" class="bg-slate-800 text-white">100% Ready</option>
+                                <option value="2" class="bg-slate-800 text-white">Partially Ready (needs editing)</option>
+                                <option value="1" class="bg-slate-800 text-white">Very Little Exists (we need help)</option>
+                            </select>
+                        </div>
+
+                        <!-- Q8: Stakeholder Complexity -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">Will anyone besides the primary decision maker review approvals? <span class="text-cyan-500">*</span></label>
+                            <select id="q_stakeholders" required class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 outline-none appearance-none">
+                                <option value="" disabled selected class="text-slate-500">Select an option</option>
+                                <option value="3" class="bg-slate-800 text-white">No, just one person</option>
+                                <option value="2" class="bg-slate-800 text-white">Yes, a small group (2-3 people)</option>
+                                <option value="1" class="bg-slate-800 text-white">Yes, a large committee or executive board</option>
+                            </select>
+                        </div>
+
+                         <!-- Q9: The Prize Frame Question (Gold Accent) -->
+                         <div class="bg-amber-900/10 p-5 rounded-lg border border-amber-500/30">
+                            <label class="block text-sm font-bold text-amber-400 mb-2">Why do you believe you're a good fit to work with us?</label>
+                            <p class="text-xs text-amber-500/80 mb-3">We partner closely with our clients. Tell us why we should work together.</p>
+                            <textarea id="q_fit" rows="2" class="w-full px-4 py-3 rounded-lg bg-slate-900/60 border border-amber-500/30 text-white focus:ring-2 focus:ring-amber-500 outline-none placeholder-slate-600"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-between">
+                        <button type="button" onclick="prevStep(3)" class="text-slate-400 hover:text-white px-4 py-2 font-medium transition-colors">← Back</button>
+                        <!-- Submit Button with Emerald/Cyan Gradient -->
+                        <button type="submit" id="submitBtn" class="bg-gradient-to-r from-cyan-600 to-emerald-600 text-white px-8 py-3 rounded-lg font-bold hover:from-cyan-500 hover:to-emerald-500 transition-all shadow-[0_4px_14px_0_rgba(16,185,129,0.39)]">Complete Discovery</button>
+                    </div>
+                </section>
+                
+                <!-- ================= CLIENT NEXT STEPS (Post-Submission) ================= -->
+                <section id="client-next-steps" class="step-container hidden">
+                    <div class="text-center">
+                        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-emerald-900/30 mb-6 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+                            <svg class="w-10 h-10 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <h2 class="text-3xl font-bold text-white mb-4">Discovery Submitted!</h2>
+                        <p class="text-slate-400 text-lg mb-8 max-w-lg mx-auto">
+                            Thank you for sharing the details of your project. Our lead strategist is reviewing your requirements now.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-800 rounded-xl p-8 border border-slate-700 shadow-xl relative overflow-hidden">
+                         <div class="absolute top-0 right-0 p-4 opacity-5">
+                             <svg class="w-32 h-32 text-cyan-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-6 flex items-center">
+                            <svg class="w-6 h-6 mr-2 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            What Happens Next?
+                        </h3>
+                        
+                        <div class="space-y-6 relative z-10">
+                            <div class="flex">
+                                <div class="flex-shrink-0 mr-4">
+                                    <div class="w-8 h-8 rounded-full bg-cyan-900/50 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-bold">1</div>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-semibold text-white">Internal Review (24 Hours)</h4>
+                                    <p class="text-slate-400 mt-1">We analyze your goals, budget, and scope to ensure we are the right team to execute your vision.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex">
+                                <div class="flex-shrink-0 mr-4">
+                                    <div class="w-8 h-8 rounded-full bg-cyan-900/50 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-bold">2</div>
+                                </div>
+                                <div>
+                                    <h4 id="next-step-title" class="text-lg font-semibold text-white">Strategic Alignment</h4>
+                                    <p id="next-step-desc" class="text-slate-400 mt-1">We will send you a tailored proposal and schedule a brief call to align on timelines and deliverables.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 pt-6 border-t border-slate-700">
+                             <p class="text-sm text-amber-400/80 italic text-center">
+                                 "We build revenue-generating assets, not just digital brochures."
+                        </p>
+                    </div>
+                </section>
+
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // Form State
+        let currentStep = 1;
+        const totalSteps = 3;
+        let isProductizedRoute = false;
+
+        function updateProgress() {
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+        }
+
+        function validateStep(step) {
+            const section = document.getElementById(`step${step}`);
+            if(!section) return true; 
+
+            const inputs = section.querySelectorAll('input[required], select[required], textarea[required]');
+            let isValid = true;
+
+            inputs.forEach(input => {
+                if (input.type === 'radio') {
+                    const group = section.querySelectorAll(`input[name="${input.name}"]`);
+                    const isChecked = Array.from(group).some(r => r.checked);
+                    if (!isChecked) isValid = false;
+                } else if (!input.value.trim()) {
+                    isValid = false;
+                    input.classList.add('border-rose-500');
+                } else {
+                    input.classList.remove('border-rose-500');
+                }
+            });
+
+            if(!isValid) {
+                section.classList.add('animate-pulse');
+                setTimeout(() => section.classList.remove('animate-pulse'), 300);
+            }
+            return isValid;
+        }
+
+        function nextStep(step) {
+            if (!validateStep(step)) return;
+
+            if (step === 1) {
+                const budgetVal = document.querySelector('input[name="q_budget"]:checked')?.value;
+                isProductizedRoute = (budgetVal === "1");
+            }
+
+            hideAllSteps();
+            currentStep = step + 1;
+            document.getElementById(`step${currentStep}`).classList.remove('hidden');
+            updateProgress();
+        }
+
+        function prevStep(step) {
+            hideAllSteps();
+            currentStep = step - 1;
+            document.getElementById(`step${currentStep}`).classList.remove('hidden');
+            updateProgress();
+        }
+
+        function hideAllSteps() {
+            document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden'));
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            if (!validateStep(currentStep)) return;
+            
+            // In a live environment, form data processing/submission happens here.
+            // Example:
+            // const formData = new FormData(document.getElementById('discoveryForm'));
+            // fetch('/api/submit-discovery', { method: 'POST', body: formData });
+
+            showClientNextSteps();
+        }
+
+        function showClientNextSteps() {
+            hideAllSteps();
+            document.getElementById('progress-bar').style.width = '100%';
+            document.getElementById('progress-bar').classList.remove('from-cyan-500', 'to-emerald-500');
+            document.getElementById('progress-bar').classList.add('bg-emerald-500');
+            
+            const nextStepsSection = document.getElementById('client-next-steps');
+            nextStepsSection.classList.remove('hidden');
+
+            const stepTitle = document.getElementById('next-step-title');
+            const stepDesc = document.getElementById('next-step-desc');
+
+            if (isProductizedRoute) {
+                stepTitle.textContent = "Starter Package Proposal";
+                stepDesc.textContent = "We will review your request and send you a clear, fixed-price proposal for our fast-tracked Boilerplate package along with next steps to begin.";
+            } else {
+                stepTitle.textContent = "Discovery Call Scheduling";
+                stepDesc.textContent = "You will receive an email from our team shortly to schedule a deep-dive alignment call to discuss strategy and architectural planning.";
+            }
+        }
+    </script>
+</body>
+</html>
