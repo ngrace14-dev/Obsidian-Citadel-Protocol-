@@ -11,18 +11,24 @@
         body { font-family: 'Inter', sans-serif; background-color: #0f172a; /* Obsidian Base */ }
         .hidden { display: none !important; }
         
-        /* Custom radio/checkbox styling for dark theme */
+        /* Custom checkbox/radio styling for dark theme with Cyan/Gold accents */
         input[type="radio"]:checked + div, input[type="checkbox"]:checked + div {
             border-color: #06b6d4; /* Cyan-500 */
             background-color: rgba(6, 182, 212, 0.1); 
         }
         
-        /* Smooth transitions for steps */
+        /* Smooth transitions */
         .step-container {
-            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Premium Dark Glassmorphism effect */
+        /* Premium Dark Glassmorphism */
         .glass-panel {
             background: rgba(30, 41, 59, 0.7); /* Slate-800 translucent */
             backdrop-filter: blur(16px);
@@ -31,235 +37,353 @@
             box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
-        /* Custom scrollbar for textareas */
-        textarea::-webkit-scrollbar { width: 8px; }
-        textarea::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); border-radius: 4px; }
-        textarea::-webkit-scrollbar-thumb { background: rgba(71, 85, 105, 0.8); border-radius: 4px; }
+        /* Pricing Modal specific styling */
+        .modal-glass {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Custom scrollbars */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); }
+        ::-webkit-scrollbar-thumb { background: rgba(71, 85, 105, 0.8); border-radius: 4px; }
     </style>
 </head>
-<body class="text-slate-300 antialiased min-h-screen flex items-center justify-center p-4 sm:p-8">
+<body class="text-slate-300 antialiased min-h-screen flex flex-col items-center justify-center p-4 sm:p-8">
 
-    <!-- Main Container -->
-    <main class="w-full max-w-4xl glass-panel rounded-2xl overflow-hidden relative">
+    <main class="w-full max-w-4xl glass-panel rounded-2xl overflow-hidden relative shadow-2xl">
         
-        <!-- Progress Bar (Cyan to Emerald Gradient) -->
-        <div class="h-2 w-full bg-slate-800">
-            <div id="progress-bar" class="h-full bg-gradient-to-r from-cyan-500 to-emerald-500 transition-all duration-300 ease-out w-1/4 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
+        <!-- Progress Bar (Cyan to Gold Gradient for Premium Feel) -->
+        <div class="h-2 w-full bg-slate-800 relative z-20">
+            <div id="progress-bar" class="h-full bg-gradient-to-r from-cyan-500 to-amber-500 transition-all duration-500 ease-out w-0 shadow-[0_0_15px_rgba(6,182,212,0.5)]"></div>
         </div>
 
-        <div class="p-8 sm:p-12">
+        <div class="p-8 sm:p-12 relative z-10">
             <!-- Header -->
-            <div class="mb-10 text-center">
-                <h1 class="text-3xl font-bold text-white tracking-tight mb-2">Project Discovery</h1>
-                <p class="text-slate-400">Let's determine if we're the right fit to build your solution.</p>
+            <div id="form-header" class="mb-10 text-center">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-800 border border-slate-700 mb-4 shadow-lg">
+                    <svg class="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                </div>
+                <h1 class="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-2">Project Discovery & Scoping</h1>
+                <p class="text-slate-400 text-lg">Let's determine the exact scope, strategy, and investment required for your build.</p>
             </div>
 
-            <!-- Form Start -->
             <form id="discoveryForm" onsubmit="handleFormSubmit(event)">
                 
-                <!-- ================= STEP 1: QUICK QUALIFICATION ================= -->
+                <!-- STEP 1: QUALIFICATION -->
                 <section id="step1" class="step-container">
-                    <h2 class="text-xl font-semibold mb-6 border-b border-slate-700 pb-2 text-white">Phase 1: The Basics</h2>
+                    <h2 class="text-xl font-semibold mb-6 border-b border-slate-700 pb-2 text-white flex items-center"><span class="text-cyan-500 mr-2">01.</span> The Basics</h2>
                     
                     <div class="space-y-6">
-                        <!-- Q1: Trigger -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">Company Name <span class="text-cyan-500">*</span></label>
+                            <input type="text" id="q_company" required class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 outline-none transition-all placeholder-slate-600">
+                        </div>
+
                         <div>
                             <label class="block text-sm font-medium text-slate-300 mb-2">What prompted you to start looking for a new website solution right now? <span class="text-cyan-500">*</span></label>
-                            <textarea id="q_trigger" rows="3" required class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 outline-none transition-all placeholder-slate-600" placeholder="e.g., We just acquired another company, our current site is crashing, we need more leads..."></textarea>
+                            <textarea id="q_trigger" rows="2" required class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 outline-none transition-all placeholder-slate-600"></textarea>
                         </div>
 
-                        <!-- Q2: Project Type -->
-                        <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">Which best describes your project? <span class="text-cyan-500">*</span></label>
-                            <select id="q_projectType" required class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 outline-none appearance-none">
-                                <option value="" disabled selected class="text-slate-500">Select an option</option>
-                                <option value="marketing" class="bg-slate-800 text-white">Marketing / Brochure Website</option>
-                                <option value="lead_gen" class="bg-slate-800 text-white">Lead Generation Website</option>
-                                <option value="ecommerce" class="bg-slate-800 text-white">E-Commerce Store</option>
-                                <option value="portal" class="bg-slate-800 text-white">Customer Portal / Membership</option>
-                                <option value="software" class="bg-slate-800 text-white">Internal Tool / Web App</option>
-                            </select>
-                        </div>
-
-                        <!-- Q3: Budget (The Fork in the Road) -->
-                        <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">What is your estimated budget range? <span class="text-cyan-500">*</span></label>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <label class="cursor-pointer relative">
-                                    <input type="radio" name="q_budget" value="1" required class="peer sr-only">
-                                    <div class="w-full px-4 py-3 border border-slate-700 bg-slate-900/30 rounded-lg text-center hover:bg-slate-800 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/20 transition-all">
-                                        <span class="font-medium text-sm text-slate-200 peer-checked:text-cyan-400">Under $3,000</span>
-                                        <p class="text-xs text-slate-500 mt-1 peer-checked:text-cyan-500/70">(Starter Packages)</p>
-                                    </div>
-                                </label>
-                                <label class="cursor-pointer relative">
-                                    <input type="radio" name="q_budget" value="2" class="peer sr-only">
-                                    <div class="w-full px-4 py-3 border border-slate-700 bg-slate-900/30 rounded-lg text-center hover:bg-slate-800 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/20 transition-all">
-                                        <span class="font-medium text-sm text-slate-200 peer-checked:text-cyan-400">$3,000 - $10,000</span>
-                                        <p class="text-xs text-slate-500 mt-1 peer-checked:text-cyan-500/70">(Growth Strategy)</p>
-                                    </div>
-                                </label>
-                                <label class="cursor-pointer relative">
-                                    <input type="radio" name="q_budget" value="3" class="peer sr-only">
-                                    <div class="w-full px-4 py-3 border border-slate-700 bg-slate-900/30 rounded-lg text-center hover:bg-slate-800 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/20 transition-all">
-                                        <span class="font-medium text-sm text-slate-200 peer-checked:text-cyan-400">$10,000 - $25,000</span>
-                                        <p class="text-xs text-slate-500 mt-1 peer-checked:text-cyan-500/70">(Custom Build)</p>
-                                    </div>
-                                </label>
-                                <label class="cursor-pointer relative">
-                                    <input type="radio" name="q_budget" value="4" class="peer sr-only">
-                                    <div class="w-full px-4 py-3 border border-slate-700 bg-slate-900/30 rounded-lg text-center hover:bg-slate-800 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/20 transition-all">
-                                        <span class="font-medium text-sm text-slate-200 peer-checked:text-cyan-400">$25,000+</span>
-                                        <p class="text-xs text-slate-500 mt-1 peer-checked:text-cyan-500/70">(Enterprise / Applications)</p>
-                                    </div>
-                                </label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">Estimated Size (Pages/Views) <span class="text-cyan-500">*</span></label>
+                                <select id="q_pages" required class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 outline-none">
+                                    <option value="" disabled selected>Select an option</option>
+                                    <option value="1">Landing Page (1 View)</option>
+                                    <option value="5">Small Site (Up to 5 Pages)</option>
+                                    <option value="10">Standard Site (Up to 10 Pages)</option>
+                                    <option value="20">Large Site (Up to 20 Pages)</option>
+                                    <option value="30">Enterprise (20+ Pages)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">Desired Launch Timeline <span class="text-cyan-500">*</span></label>
+                                <select id="q_timeline" required class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 outline-none">
+                                    <option value="" disabled selected>Select an option</option>
+                                    <option value="asap">ASAP (Priority Expedited Rates Apply)</option>
+                                    <option value="30days">Within 30 Days</option>
+                                    <option value="90days">Within 90 Days</option>
+                                    <option value="flexible">Flexible</option>
+                                </select>
                             </div>
                         </div>
                     </div>
                     
                     <div class="mt-8 flex justify-end">
-                        <button type="button" onclick="nextStep(1)" class="bg-cyan-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-cyan-500 transition-colors shadow-[0_4px_14px_0_rgba(6,182,212,0.39)]">Next Step →</button>
+                        <button type="button" onclick="nextStep(1)" class="bg-cyan-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-cyan-500 transition-all shadow-[0_0_15px_rgba(6,182,212,0.4)]">Continue →</button>
                     </div>
                 </section>
 
-                <!-- ================= STEP 2: BUSINESS & GOALS ================= -->
+                <!-- STEP 2: SCOPE & FEATURES (The Quoting Triggers) -->
                 <section id="step2" class="step-container hidden">
-                    <h2 class="text-xl font-semibold mb-6 border-b border-slate-700 pb-2 text-white">Phase 2: Business Strategy</h2>
+                    <h2 class="text-xl font-semibold mb-6 border-b border-slate-700 pb-2 text-white flex items-center"><span class="text-cyan-500 mr-2">02.</span> Technical Requirements</h2>
                     
                     <div class="space-y-6">
-                        <!-- Q4: Revenue Model -->
                         <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">How does your business primarily make money? <span class="text-cyan-500">*</span></label>
-                            <select id="q_revenue" required class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 outline-none appearance-none">
-                                <option value="" disabled selected class="text-slate-500">Select an option</option>
-                                <option value="product" class="bg-slate-800 text-white">Product Sales</option>
-                                <option value="service" class="bg-slate-800 text-white">Service Sales</option>
-                                <option value="lead" class="bg-slate-800 text-white">Lead Generation for Sales Team</option>
-                                <option value="subscription" class="bg-slate-800 text-white">Subscriptions / Memberships</option>
-                            </select>
+                            <label class="block text-sm font-medium text-slate-300 mb-3">Which advanced features will this project require? (Select all that apply)</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="feature-checkboxes">
+                                <!-- Standard Features (No Retainer Trigger) -->
+                                <label class="cursor-pointer relative">
+                                    <input type="checkbox" value="contact_forms" class="peer sr-only">
+                                    <div class="w-full px-4 py-3 border border-slate-700 bg-slate-900/30 rounded-lg peer-checked:border-cyan-500 peer-checked:bg-cyan-900/20 transition-all text-sm text-slate-300">Standard Contact Forms</div>
+                                </label>
+                                <label class="cursor-pointer relative">
+                                    <input type="checkbox" value="cms" class="peer sr-only">
+                                    <div class="w-full px-4 py-3 border border-slate-700 bg-slate-900/30 rounded-lg peer-checked:border-cyan-500 peer-checked:bg-cyan-900/20 transition-all text-sm text-slate-300">Blog / Content Management</div>
+                                </label>
+                                
+                                <!-- ADVANCED FEATURES (Triggers $1k Retainer + Hourly) -->
+                                <div class="col-span-1 sm:col-span-2 mt-4 mb-2">
+                                    <p class="text-xs font-bold tracking-wider text-amber-500 uppercase">Advanced Engineering & Integrations</p>
+                                </div>
+                                <label class="cursor-pointer relative">
+                                    <input type="checkbox" value="auth" data-advanced="true" class="peer sr-only">
+                                    <div class="w-full px-4 py-3 border border-slate-700 bg-slate-900/30 rounded-lg peer-checked:border-amber-500 peer-checked:bg-amber-900/20 transition-all text-sm text-slate-300">User Authentication & Roles</div>
+                                </label>
+                                <label class="cursor-pointer relative">
+                                    <input type="checkbox" value="database" data-advanced="true" class="peer sr-only">
+                                    <div class="w-full px-4 py-3 border border-slate-700 bg-slate-900/30 rounded-lg peer-checked:border-amber-500 peer-checked:bg-amber-900/20 transition-all text-sm text-slate-300">Custom Database Architecture</div>
+                                </label>
+                                <label class="cursor-pointer relative">
+                                    <input type="checkbox" value="api" data-advanced="true" class="peer sr-only">
+                                    <div class="w-full px-4 py-3 border border-slate-700 bg-slate-900/30 rounded-lg peer-checked:border-amber-500 peer-checked:bg-amber-900/20 transition-all text-sm text-slate-300">3rd-Party API Connections</div>
+                                </label>
+                                <label class="cursor-pointer relative">
+                                    <input type="checkbox" value="crm" data-advanced="true" class="peer sr-only">
+                                    <div class="w-full px-4 py-3 border border-slate-700 bg-slate-900/30 rounded-lg peer-checked:border-amber-500 peer-checked:bg-amber-900/20 transition-all text-sm text-slate-300">Custom CRM Integration</div>
+                                </label>
+                                <label class="cursor-pointer relative">
+                                    <input type="checkbox" value="saas" data-advanced="true" class="peer sr-only">
+                                    <div class="w-full px-4 py-3 border border-slate-700 bg-slate-900/30 rounded-lg peer-checked:border-amber-500 peer-checked:bg-amber-900/20 transition-all text-sm text-slate-300">SaaS Functionality / Dashboards</div>
+                                </label>
+                                <label class="cursor-pointer relative">
+                                    <input type="checkbox" value="ai" data-advanced="true" class="peer sr-only">
+                                    <div class="w-full px-4 py-3 border border-slate-700 bg-slate-900/30 rounded-lg peer-checked:border-amber-500 peer-checked:bg-amber-900/20 transition-all text-sm text-slate-300">Artificial Intelligence (AI) Features</div>
+                                </label>
+                            </div>
                         </div>
 
-                        <!-- Q5: Success Definition -->
-                        <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">Twelve months after launch, what would make this project a huge success?</label>
-                            <textarea id="q_success" rows="2" class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 outline-none transition-all placeholder-slate-600"></textarea>
-                        </div>
-
-                        <!-- Q6: Executive Alignment (Emerald Accent) -->
-                        <div class="bg-emerald-900/10 p-5 rounded-lg border border-emerald-500/30">
-                            <label class="block text-sm font-bold text-emerald-400 mb-2">Beyond company goals, what does success personally mean for you? <span class="text-emerald-500">*</span></label>
-                            <p class="text-xs text-emerald-500/80 mb-3">e.g., "I need to impress leadership," "I need to reduce my own support workload."</p>
-                            <textarea id="q_executive" rows="2" required class="w-full px-4 py-3 rounded-lg bg-slate-900/60 border border-emerald-500/30 text-white focus:ring-2 focus:ring-emerald-500 outline-none placeholder-slate-600"></textarea>
+                        <!-- Maintenance Plans -->
+                        <div class="pt-6 border-t border-slate-800">
+                            <label class="block text-sm font-medium text-slate-300 mb-3">Post-Launch Support & Maintenance</label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <label class="cursor-pointer relative">
+                                    <input type="radio" name="q_maintenance" value="none" class="peer sr-only" checked>
+                                    <div class="w-full h-full p-4 border border-slate-700 bg-slate-900/30 rounded-lg peer-checked:border-cyan-500 peer-checked:bg-cyan-900/20 transition-all">
+                                        <div class="font-semibold text-slate-200">No Maintenance</div>
+                                        <p class="text-xs text-slate-500 mt-1">We will manage our own updates and security.</p>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer relative">
+                                    <input type="radio" name="q_maintenance" value="essential" class="peer sr-only">
+                                    <div class="w-full h-full p-4 border border-slate-700 bg-slate-900/30 rounded-lg peer-checked:border-cyan-500 peer-checked:bg-cyan-900/20 transition-all">
+                                        <div class="flex justify-between items-center"><span class="font-semibold text-slate-200">Essential Care</span><span class="text-cyan-400 font-bold">$99/mo</span></div>
+                                        <p class="text-xs text-slate-400 mt-1">Security, backups, priority scheduling, and 30m of monthly changes.</p>
+                                    </div>
+                                </label>
+                            </div>
                         </div>
                     </div>
 
                     <div class="mt-8 flex justify-between">
                         <button type="button" onclick="prevStep(2)" class="text-slate-400 hover:text-white px-4 py-2 font-medium transition-colors">← Back</button>
-                        <button type="button" onclick="nextStep(2)" class="bg-cyan-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-cyan-500 transition-colors shadow-[0_4px_14px_0_rgba(6,182,212,0.39)]">Next Step →</button>
+                        <button type="button" onclick="nextStep(2)" class="bg-cyan-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-cyan-500 transition-all shadow-[0_0_15px_rgba(6,182,212,0.4)]">Continue →</button>
                     </div>
                 </section>
 
-                <!-- ================= STEP 3: SCOPE & LOGISTICS ================= -->
+                <!-- STEP 3: EXECUTIVE ALIGNMENT -->
                 <section id="step3" class="step-container hidden">
-                    <h2 class="text-xl font-semibold mb-6 border-b border-slate-700 pb-2 text-white">Phase 3: Scope & Readiness</h2>
+                    <h2 class="text-xl font-semibold mb-6 border-b border-slate-700 pb-2 text-white flex items-center"><span class="text-cyan-500 mr-2">03.</span> Strategic Alignment</h2>
                     
                     <div class="space-y-6">
-                        <!-- Q7: Content Readiness -->
                         <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">How complete is your website content (text/images) today? <span class="text-cyan-500">*</span></label>
-                            <select id="q_content" required class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 outline-none appearance-none">
-                                <option value="" disabled selected class="text-slate-500">Select an option</option>
-                                <option value="3" class="bg-slate-800 text-white">100% Ready</option>
-                                <option value="2" class="bg-slate-800 text-white">Partially Ready (needs editing)</option>
-                                <option value="1" class="bg-slate-800 text-white">Very Little Exists (we need help)</option>
-                            </select>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">Twelve months after launch, what would make this project a huge success?</label>
+                            <textarea id="q_success" rows="2" class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-600"></textarea>
                         </div>
 
-                        <!-- Q8: Stakeholder Complexity -->
-                        <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">Will anyone besides the primary decision maker review approvals? <span class="text-cyan-500">*</span></label>
-                            <select id="q_stakeholders" required class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 outline-none appearance-none">
-                                <option value="" disabled selected class="text-slate-500">Select an option</option>
-                                <option value="3" class="bg-slate-800 text-white">No, just one person</option>
-                                <option value="2" class="bg-slate-800 text-white">Yes, a small group (2-3 people)</option>
-                                <option value="1" class="bg-slate-800 text-white">Yes, a large committee or executive board</option>
-                            </select>
+                        <!-- The Executive Close (Gold Accent) -->
+                        <div class="bg-amber-900/10 p-5 rounded-lg border border-amber-500/30 shadow-[inset_0_0_20px_rgba(245,158,11,0.05)]">
+                            <label class="block text-sm font-bold text-amber-400 mb-2">Beyond company goals, what does success *personally* mean for you? <span class="text-amber-500">*</span></label>
+                            <p class="text-xs text-amber-500/70 mb-3">e.g., "I need to impress leadership," "I want to reduce my daily support workload," or "I want to elevate our brand prestige."</p>
+                            <textarea id="q_executive" rows="2" required class="w-full px-4 py-3 rounded-lg bg-slate-900/60 border border-amber-500/30 text-white focus:ring-2 focus:ring-amber-500 outline-none placeholder-slate-600"></textarea>
                         </div>
 
-                         <!-- Q9: The Prize Frame Question (Gold Accent) -->
-                         <div class="bg-amber-900/10 p-5 rounded-lg border border-amber-500/30">
-                            <label class="block text-sm font-bold text-amber-400 mb-2">Why do you believe you're a good fit to work with us?</label>
-                            <p class="text-xs text-amber-500/80 mb-3">We partner closely with our clients. Tell us why we should work together.</p>
-                            <textarea id="q_fit" rows="2" class="w-full px-4 py-3 rounded-lg bg-slate-900/60 border border-amber-500/30 text-white focus:ring-2 focus:ring-amber-500 outline-none placeholder-slate-600"></textarea>
+                        <!-- The Velvet Rope -->
+                        <div class="pt-4">
+                            <label class="block text-sm font-medium text-slate-300 mb-3">Partnership Commitment <span class="text-cyan-500">*</span></label>
+                            <div class="flex items-start mb-4">
+                                <input id="q_commitment" type="checkbox" required class="w-5 h-5 mt-0.5 text-cyan-600 bg-slate-900 border-slate-700 rounded focus:ring-cyan-500">
+                                <label for="q_commitment" class="ml-3 text-sm text-slate-400">Our goal is to create measurable business value, not simply launch a website. I confirm we are looking for an expert partner and are comfortable investing in solutions based on business outcomes and ROI, rather than selecting solely on the lowest price.</label>
+                            </div>
                         </div>
                     </div>
 
                     <div class="mt-8 flex justify-between">
                         <button type="button" onclick="prevStep(3)" class="text-slate-400 hover:text-white px-4 py-2 font-medium transition-colors">← Back</button>
-                        <!-- Submit Button with Emerald/Cyan Gradient -->
-                        <button type="submit" id="submitBtn" class="bg-gradient-to-r from-cyan-600 to-emerald-600 text-white px-8 py-3 rounded-lg font-bold hover:from-cyan-500 hover:to-emerald-500 transition-all shadow-[0_4px_14px_0_rgba(16,185,129,0.39)]">Complete Discovery</button>
+                        <button type="submit" class="bg-gradient-to-r from-cyan-600 to-amber-600 text-white px-8 py-3 rounded-lg font-bold hover:from-cyan-500 hover:to-amber-500 transition-all shadow-[0_0_20px_rgba(245,158,11,0.4)]">Calculate Project Estimate</button>
                     </div>
                 </section>
-                
-                <!-- ================= CLIENT NEXT STEPS (Post-Submission) ================= -->
+
+                <!-- FINAL STEP: CLIENT ESTIMATE & NEXT STEPS -->
                 <section id="client-next-steps" class="step-container hidden">
-                    <div class="text-center">
-                        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-emerald-900/30 mb-6 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
-                            <svg class="w-10 h-10 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <div class="text-center mb-8">
+                        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-cyan-900/30 mb-6 shadow-[0_0_30px_rgba(6,182,212,0.3)] border border-cyan-500/50">
+                            <svg class="w-10 h-10 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         </div>
-                        <h2 class="text-3xl font-bold text-white mb-4">Discovery Submitted!</h2>
-                        <p class="text-slate-400 text-lg mb-8 max-w-lg mx-auto">
-                            Thank you for sharing the details of your project. Our lead strategist is reviewing your requirements now.
-                        </p>
+                        <h2 class="text-3xl font-bold text-white mb-2">Discovery Complete</h2>
+                        <p class="text-slate-400">Based on your requirements, here is your transparent project projection.</p>
                     </div>
 
-                    <div class="bg-slate-800 rounded-xl p-8 border border-slate-700 shadow-xl relative overflow-hidden">
-                         <div class="absolute top-0 right-0 p-4 opacity-5">
-                             <svg class="w-32 h-32 text-cyan-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+                    <!-- Dynamic Pricing Card -->
+                    <div class="bg-slate-900/80 rounded-xl p-6 sm:p-8 border border-slate-700 shadow-2xl relative overflow-hidden mb-8">
+                         <div class="absolute top-0 right-0 p-6 opacity-10">
+                             <svg class="w-32 h-32 text-amber-500" fill="currentColor" viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-6 flex items-center">
-                            <svg class="w-6 h-6 mr-2 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            What Happens Next?
-                        </h3>
                         
-                        <div class="space-y-6 relative z-10">
-                            <div class="flex">
-                                <div class="flex-shrink-0 mr-4">
-                                    <div class="w-8 h-8 rounded-full bg-cyan-900/50 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-bold">1</div>
-                                </div>
-                                <div>
-                                    <h4 class="text-lg font-semibold text-white">Internal Review (24 Hours)</h4>
-                                    <p class="text-slate-400 mt-1">We analyze your goals, budget, and scope to ensure we are the right team to execute your vision.</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex">
-                                <div class="flex-shrink-0 mr-4">
-                                    <div class="w-8 h-8 rounded-full bg-cyan-900/50 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-bold">2</div>
-                                </div>
-                                <div>
-                                    <h4 id="next-step-title" class="text-lg font-semibold text-white">Strategic Alignment</h4>
-                                    <p id="next-step-desc" class="text-slate-400 mt-1">We will send you a tailored proposal and schedule a brief call to align on timelines and deliverables.</p>
-                                </div>
-                            </div>
+                        <h3 class="text-xl font-bold text-white mb-6 border-b border-slate-700 pb-3">Initial Investment Estimate</h3>
+                        
+                        <div class="space-y-4 relative z-10" id="estimate-breakdown">
+                            <!-- Injected via JS -->
                         </div>
 
-                        <div class="mt-8 pt-6 border-t border-slate-700">
-                             <p class="text-sm text-amber-400/80 italic text-center">
-                                 "We build revenue-generating assets, not just digital brochures."
-                        </p>
+                        <div class="mt-6 pt-4 border-t border-slate-700 flex justify-between items-end relative z-10">
+                            <div>
+                                <p class="text-sm text-slate-400 uppercase tracking-wider font-semibold">Estimated Total</p>
+                                <p class="text-xs text-slate-500 mt-1">*Final cost subject to detailed scoping</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-3xl font-bold text-amber-400" id="estimate-total">$0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button type="button" onclick="openPricingModal()" class="px-6 py-3 rounded-lg font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-600 transition-colors">
+                            View Official Pricing Model
+                        </button>
+                        <a href="#" id="sales-email-btn" class="px-8 py-3 rounded-lg font-bold bg-gradient-to-r from-cyan-600 to-emerald-600 text-white hover:from-cyan-500 hover:to-emerald-500 transition-all shadow-[0_0_15px_rgba(16,185,129,0.4)] text-center">
+                            Email Sales to Proceed
+                        </a>
                     </div>
                 </section>
-
             </form>
         </div>
     </main>
 
+    <!-- PRICING MODAL (Representing the PDF) -->
+    <div id="pricing-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 sm:p-6 opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closePricingModal()"></div>
+        
+        <div class="modal-glass w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-xl shadow-2xl relative z-10 transform scale-95 transition-transform duration-300" id="pricing-modal-content">
+            <!-- Modal Header -->
+            <div class="sticky top-0 bg-slate-900/95 backdrop-blur border-b border-slate-700 p-6 flex justify-between items-center z-20">
+                <div>
+                    <h2 class="text-2xl font-bold text-white">Agency Services & Pricing</h2>
+                    <p class="text-sm text-cyan-500">Standardized billing framework for development, logic, and care.</p>
+                </div>
+                <button onclick="closePricingModal()" class="text-slate-400 hover:text-white p-2 bg-slate-800 rounded-full transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- Modal Body (PDF Content) -->
+            <div class="p-6 sm:p-8 space-y-8 text-slate-300 text-sm">
+                <p>Our pricing model is engineered to provide absolute transparency. Visual and UI structural work is billed at fixed, predictable rates, while custom logic and advanced integrations are scoped according to dedicated engineering time.</p>
+
+                <!-- Section 1 -->
+                <div>
+                    <h3 class="text-lg font-bold text-amber-500 mb-2 border-b border-slate-700 pb-1">1. New Files & Views (Base Development)</h3>
+                    <p class="font-bold text-white text-base mb-2">$250 per New File / View</p>
+                    <p class="mb-2">Applied to the creation of standard, static web architecture. Each core page, component view, or functional route added to the project is billed as a single flat-rate unit.</p>
+                    <ul class="list-disc pl-5 space-y-1 text-slate-400 mb-4">
+                        <li>New page or component view</li>
+                        <li>Responsive design implementation</li>
+                        <li>Standard contact forms & basic webhooks</li>
+                        <li>Testing & deployment</li>
+                    </ul>
+                </div>
+
+                <!-- Section 2 -->
+                <div>
+                    <h3 class="text-lg font-bold text-amber-500 mb-2 border-b border-slate-700 pb-1">2. Advanced Engineering Engagement</h3>
+                    <p class="font-bold text-white text-base mb-2">$1,000 Upfront Retainer + $125 / hour</p>
+                    <p class="mb-2">Complex systems requiring data architecture, custom logic, or third-party API configurations fall under the Engineering Engagement model. The $1,000 retainer covers initial scoping, database modeling, and technical architecture prior to development.</p>
+                    <p class="font-semibold text-white mt-4 mb-2">Engineering Feature Triggers:</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-400">
+                        <div>✓ Custom CRM Integrations</div>
+                        <div>✓ User Authentication & Roles</div>
+                        <div>✓ Database Architecture</div>
+                        <div>✓ Artificial Intelligence (AI)</div>
+                        <div>✓ 3rd-Party API Connections</div>
+                        <div>✓ Complex Automations</div>
+                        <div>✓ Custom SaaS Functionality</div>
+                        <div>✓ Dynamic User Dashboards</div>
+                    </div>
+                </div>
+
+                <!-- Section 3 -->
+                <div>
+                    <h3 class="text-lg font-bold text-amber-500 mb-2 border-b border-slate-700 pb-1">3. Maintenance & Retainer Plans</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                        <div class="p-4 bg-slate-800/50 rounded-lg border border-slate-700">
+                            <h4 class="font-bold text-white">Essential Care <span class="text-cyan-400 ml-2">$99/mo</span></h4>
+                            <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-400 text-xs">
+                                <li>Security review & updates</li>
+                                <li>Uptime monitoring & backups</li>
+                                <li>Up to 30 mins structural changes/mo</li>
+                                <li>$125 Change Minimum Fee Waived</li>
+                            </ul>
+                        </div>
+                        <div class="p-4 bg-slate-800/50 rounded-lg border border-slate-700">
+                            <h4 class="font-bold text-white">Growth Care <span class="text-cyan-400 ml-2">$249/mo</span></h4>
+                            <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-400 text-xs">
+                                <li>Everything in Essential Care</li>
+                                <li>Priority task scheduling</li>
+                                <li>Up to 2 hrs structural changes/mo</li>
+                                <li>$125 Change Minimum Fee Waived</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4 -->
+                <div>
+                    <h3 class="text-lg font-bold text-amber-500 mb-2 border-b border-slate-700 pb-1">4. Priority & Expedited Operations</h3>
+                    <p class="font-bold text-white text-base mb-2">1.5x Standard Rates</p>
+                    <p class="mb-2">Projects requiring aggressive turnarounds, "skip-the-line" scheduling, or execution outside of standard business hours are subject to priority pricing.</p>
+                    <ul class="list-disc pl-5 space-y-1 text-slate-400">
+                        <li>Expedited New File: <span class="text-white">$375</span> per file/view</li>
+                        <li>Expedited Engineering: <span class="text-white">$187.50</span> per hour</li>
+                    </ul>
+                </div>
+                
+                 <!-- Section 5 -->
+                 <div>
+                    <h3 class="text-lg font-bold text-amber-500 mb-2 border-b border-slate-700 pb-1">5. Client-Owned Infrastructure Expenses</h3>
+                    <p class="mb-2">To protect client independence, all underlying infrastructure is held in the client's name and billed directly by the provider. Our agency operates via delegated technical access. Client is responsible for Domain Registration, Hosting Subscriptions, SaaS Platform Fees, and API Usage Fees.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Form State
         let currentStep = 1;
         const totalSteps = 3;
-        let isProductizedRoute = false;
+
+        // Pricing Configuration (From PDF)
+        const PRICING = {
+            baseNodeRate: 250,
+            priorityMultiplier: 1.5,
+            retainerFee: 1000,
+            hourlyRate: 125,
+            maintenance: {
+                none: 0,
+                essential: 99,
+                growth: 249
+            }
+        };
 
         function updateProgress() {
             const progress = (currentStep / totalSteps) * 100;
@@ -274,10 +398,8 @@
             let isValid = true;
 
             inputs.forEach(input => {
-                if (input.type === 'radio') {
-                    const group = section.querySelectorAll(`input[name="${input.name}"]`);
-                    const isChecked = Array.from(group).some(r => r.checked);
-                    if (!isChecked) isValid = false;
+                if (input.type === 'checkbox') {
+                    if (!input.checked) isValid = false; // Specifically for the final agreement checkbox
                 } else if (!input.value.trim()) {
                     isValid = false;
                     input.classList.add('border-rose-500');
@@ -295,12 +417,6 @@
 
         function nextStep(step) {
             if (!validateStep(step)) return;
-
-            if (step === 1) {
-                const budgetVal = document.querySelector('input[name="q_budget"]:checked')?.value;
-                isProductizedRoute = (budgetVal === "1");
-            }
-
             hideAllSteps();
             currentStep = step + 1;
             document.getElementById(`step${currentStep}`).classList.remove('hidden');
@@ -318,37 +434,132 @@
             document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden'));
         }
 
+        // The Pricing & Triage Engine
         function handleFormSubmit(e) {
             e.preventDefault();
             if (!validateStep(currentStep)) return;
             
-            // In a live environment, form data processing/submission happens here.
-            // Example:
-            // const formData = new FormData(document.getElementById('discoveryForm'));
-            // fetch('/api/submit-discovery', { method: 'POST', body: formData });
+            // Gather Variables
+            const companyName = document.getElementById('q_company').value;
+            const nodesCount = parseInt(document.getElementById('q_pages').value) || 0;
+            const timeline = document.getElementById('q_timeline').value;
+            const maintenance = document.querySelector('input[name="q_maintenance"]:checked').value;
+            
+            // Check for Advanced Features
+            const advancedCheckboxes = document.querySelectorAll('input[data-advanced="true"]:checked');
+            const requiresEngineering = advancedCheckboxes.length > 0;
+            
+            let featureNames = [];
+            document.querySelectorAll('#feature-checkboxes input:checked').forEach(cb => {
+                featureNames.push(cb.nextElementSibling.innerText);
+            });
 
-            showClientNextSteps();
+            // Calculate Math
+            let isPriority = (timeline === 'asap');
+            let nodeRate = isPriority ? (PRICING.baseNodeRate * PRICING.priorityMultiplier) : PRICING.baseNodeRate;
+            
+            let baseDevCost = nodesCount * nodeRate;
+            let retainerCost = requiresEngineering ? PRICING.retainerFee : 0;
+            let totalInitialCost = baseDevCost + retainerCost;
+            
+            // Build Breakdown HTML
+            const breakdownContainer = document.getElementById('estimate-breakdown');
+            breakdownContainer.innerHTML = ''; // clear
+
+            // Line Item 1: Base Dev
+            breakdownContainer.innerHTML += `
+                <div class="flex justify-between items-center pb-3 border-b border-slate-800">
+                    <div>
+                        <p class="text-white font-medium">Base UI Development</p>
+                        <p class="text-xs text-slate-500">${nodesCount} Unit(s) @ $${nodeRate}/ea ${isPriority ? '<span class="text-rose-400 ml-1">(1.5x Priority Rate Applied)</span>' : ''}</p>
+                    </div>
+                    <p class="text-white font-medium">$${baseDevCost.toLocaleString()}</p>
+                </div>
+            `;
+
+            // Line Item 2: Retainer (If applicable)
+            if (requiresEngineering) {
+                breakdownContainer.innerHTML += `
+                    <div class="flex justify-between items-center pb-3 border-b border-slate-800">
+                        <div>
+                            <p class="text-amber-400 font-medium">Advanced Engineering Retainer</p>
+                            <p class="text-xs text-slate-500">Required for DB/API/Custom Logic upfront architecture</p>
+                        </div>
+                        <p class="text-amber-400 font-medium">$${retainerCost.toLocaleString()}</p>
+                    </div>
+                    <div class="bg-amber-900/10 border border-amber-500/20 rounded p-3 mt-2">
+                        <p class="text-xs text-amber-500/90"><span class="font-bold text-amber-400">Notice:</span> Features selected trigger the Hybrid Model. Engineering execution will be billed at $${PRICING.hourlyRate}/hr against/beyond this initial retainer.</p>
+                    </div>
+                `;
+            }
+
+            // Line Item 3: Maintenance
+            if (maintenance !== 'none') {
+                let maintCost = PRICING.maintenance[maintenance];
+                let maintName = maintenance === 'essential' ? 'Essential Care' : 'Growth Care';
+                breakdownContainer.innerHTML += `
+                    <div class="flex justify-between items-center pt-2">
+                        <div>
+                            <p class="text-cyan-400 font-medium">Post-Launch: ${maintName}</p>
+                            <p class="text-xs text-slate-500">Billed monthly after deployment</p>
+                        </div>
+                        <p class="text-cyan-400 font-medium">$${maintCost}/mo</p>
+                    </div>
+                `;
+            }
+
+            document.getElementById('estimate-total').textContent = `$${totalInitialCost.toLocaleString()}`;
+
+            // Build Mailto Link
+            const subject = encodeURIComponent(`Project Discovery: ${companyName}`);
+            const body = encodeURIComponent(`
+Hi Team,
+
+I have completed the Project Discovery framework. Here are my details:
+
+COMPANY: ${companyName}
+EST. FILES/VIEWS: ${nodesCount}
+TIMELINE: ${timeline}
+MAINTENANCE: ${maintenance}
+
+REQUIRED FEATURES:
+${featureNames.join('\n')}
+
+ESTIMATE GENERATED: $${totalInitialCost.toLocaleString()}
+Requires Engineering Retainer: ${requiresEngineering ? 'YES' : 'NO'}
+
+Let's discuss next steps!
+            `);
+            
+            document.getElementById('sales-email-btn').href = `mailto:sales@youragency.com?subject=${subject}&body=${body}`;
+
+            // Show Final Screen
+            hideAllSteps();
+            document.getElementById('form-header').classList.add('hidden');
+            document.getElementById('progress-bar').style.width = '100%';
+            document.getElementById('client-next-steps').classList.remove('hidden');
         }
 
-        function showClientNextSteps() {
-            hideAllSteps();
-            document.getElementById('progress-bar').style.width = '100%';
-            document.getElementById('progress-bar').classList.remove('from-cyan-500', 'to-emerald-500');
-            document.getElementById('progress-bar').classList.add('bg-emerald-500');
-            
-            const nextStepsSection = document.getElementById('client-next-steps');
-            nextStepsSection.classList.remove('hidden');
+        // Modal Controls
+        function openPricingModal() {
+            const modal = document.getElementById('pricing-modal');
+            const content = document.getElementById('pricing-modal-content');
+            modal.classList.remove('hidden');
+            // Slight delay for animation classes to take effect
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+            }, 10);
+        }
 
-            const stepTitle = document.getElementById('next-step-title');
-            const stepDesc = document.getElementById('next-step-desc');
-
-            if (isProductizedRoute) {
-                stepTitle.textContent = "Starter Package Proposal";
-                stepDesc.textContent = "We will review your request and send you a clear, fixed-price proposal for our fast-tracked Boilerplate package along with next steps to begin.";
-            } else {
-                stepTitle.textContent = "Discovery Call Scheduling";
-                stepDesc.textContent = "You will receive an email from our team shortly to schedule a deep-dive alignment call to discuss strategy and architectural planning.";
-            }
+        function closePricingModal() {
+            const modal = document.getElementById('pricing-modal');
+            const content = document.getElementById('pricing-modal-content');
+            modal.classList.add('opacity-0');
+            content.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300); // match transition duration
         }
     </script>
 </body>
