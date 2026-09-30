@@ -67,7 +67,7 @@
             <div id="progress-bar" class="h-full bg-gradient-to-r from-cyan-500 to-amber-500 transition-all duration-500 ease-out w-0 shadow-[0_0_15px_rgba(6,182,212,0.5)]"></div>
         </div>
 
-        <div class="p-8 sm:p-12 relative z-10">
+        <div class="p-6 sm:p-8 md:p-12 relative z-10">
             <!-- Header -->
             <div id="form-header" class="mb-10 text-center">
                 <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-800 border border-slate-700 mb-4 shadow-lg">
@@ -119,8 +119,8 @@
                         </div>
                     </div>
                     
-                    <div class="mt-8 flex justify-end">
-                        <button type="button" onclick="nextStep(1)" class="bg-cyan-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-cyan-500 transition-all shadow-[0_0_15px_rgba(6,182,212,0.4)]">Continue →</button>
+                                        <div class="mt-8 flex justify-end">
+                        <button type="button" onclick="nextStep(1)" class="w-full sm:w-auto bg-cyan-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-cyan-500 transition-all shadow-[0_0_15px_rgba(6,182,212,0.4)]">Continue →</button>
                     </div>
                 </section>
 
@@ -195,9 +195,9 @@
                         </div>
                     </div>
 
-                    <div class="mt-8 flex justify-between">
-                        <button type="button" onclick="prevStep(2)" class="text-slate-400 hover:text-white px-4 py-2 font-medium transition-colors">← Back</button>
-                        <button type="button" onclick="nextStep(2)" class="bg-cyan-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-cyan-500 transition-all shadow-[0_0_15px_rgba(6,182,212,0.4)]">Continue →</button>
+                                        <div class="mt-8 flex flex-col-reverse sm:flex-row justify-between gap-4">
+                        <button type="button" onclick="prevStep(2)" class="text-slate-400 hover:text-white px-4 py-3 font-medium transition-colors w-full sm:w-auto border border-slate-700 sm:border-transparent rounded-lg sm:rounded-none">← Back</button>
+                        <button type="button" onclick="nextStep(2)" class="w-full sm:w-auto bg-cyan-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-cyan-500 transition-all shadow-[0_0_15px_rgba(6,182,212,0.4)]">Continue →</button>
                     </div>
                 </section>
 
@@ -228,9 +228,9 @@
                         </div>
                     </div>
 
-                    <div class="mt-8 flex justify-between">
-                        <button type="button" onclick="prevStep(3)" class="text-slate-400 hover:text-white px-4 py-2 font-medium transition-colors">← Back</button>
-                        <button type="submit" class="bg-gradient-to-r from-cyan-600 to-amber-600 text-white px-8 py-3 rounded-lg font-bold hover:from-cyan-500 hover:to-amber-500 transition-all shadow-[0_0_20px_rgba(245,158,11,0.4)]">Calculate Project Estimate</button>
+                                        <div class="mt-8 flex flex-col-reverse sm:flex-row justify-between gap-4">
+                        <button type="button" onclick="prevStep(3)" class="text-slate-400 hover:text-white px-4 py-3 font-medium transition-colors w-full sm:w-auto border border-slate-700 sm:border-transparent rounded-lg sm:rounded-none">← Back</button>
+                        <button type="submit" class="w-full sm:w-auto bg-gradient-to-r from-cyan-600 to-amber-600 text-white px-8 py-3 rounded-lg font-bold hover:from-cyan-500 hover:to-amber-500 transition-all shadow-[0_0_20px_rgba(245,158,11,0.4)]">Calculate Project Estimate</button>
                     </div>
                 </section>
 
@@ -288,11 +288,11 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                                                <button type="button" onclick="openPricingModal()" class="px-6 py-3 rounded-lg font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-600 transition-colors">
+                                        <div class="flex flex-col gap-4 justify-center">
+                        <button type="button" onclick="openPricingModal()" class="w-full px-6 py-3 rounded-lg font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-600 transition-colors">
                             View Official Pricing Model
                         </button>
-                        <button type="button" id="sales-email-btn" onclick="sendEmail()" class="px-8 py-3 rounded-lg font-bold bg-gradient-to-r from-cyan-600 to-emerald-600 text-white hover:from-cyan-500 hover:to-emerald-500 transition-all shadow-[0_0_15px_rgba(16,185,129,0.4)] text-center">
+                        <button type="button" id="sales-email-btn" onclick="sendEmail()" class="w-full px-8 py-4 rounded-lg font-bold bg-gradient-to-r from-cyan-600 to-emerald-600 text-white hover:from-cyan-500 hover:to-emerald-500 transition-all shadow-[0_0_15px_rgba(16,185,129,0.4)] text-center text-lg">
                             Email Sales to Proceed
                         </button>
                     </div>
