@@ -4,8 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Website Discovery & Qualification Framework</title>
-    <!-- Tailwind CSS for styling -->
+        <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+        <script type="text/javascript">
+        (function() {
+            // Replace with your actual EmailJS Public Key
+            emailjs.init("wwLmAVmBv91zofoPE");
+        })();
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #0f172a; /* Obsidian Base */ }
@@ -260,12 +268,12 @@
                     </div>
 
                     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                        <button type="button" onclick="openPricingModal()" class="px-6 py-3 rounded-lg font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-600 transition-colors">
+                                                <button type="button" onclick="openPricingModal()" class="px-6 py-3 rounded-lg font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-600 transition-colors">
                             View Official Pricing Model
                         </button>
-                        <a href="#" id="sales-email-btn" class="px-8 py-3 rounded-lg font-bold bg-gradient-to-r from-cyan-600 to-emerald-600 text-white hover:from-cyan-500 hover:to-emerald-500 transition-all shadow-[0_0_15px_rgba(16,185,129,0.4)] text-center">
+                        <button type="button" id="sales-email-btn" onclick="sendEmail()" class="px-8 py-3 rounded-lg font-bold bg-gradient-to-r from-cyan-600 to-emerald-600 text-white hover:from-cyan-500 hover:to-emerald-500 transition-all shadow-[0_0_15px_rgba(16,185,129,0.4)] text-center">
                             Email Sales to Proceed
-                        </a>
+                        </button>
                     </div>
                 </section>
             </form>
@@ -508,36 +516,46 @@
                 `;
             }
 
-            document.getElementById('estimate-total').textContent = `$${totalInitialCost.toLocaleString()}`;
+                        document.getElementById('estimate-total').textContent = `$${totalInitialCost.toLocaleString()}`;
 
-            // Build Mailto Link
-            const subject = encodeURIComponent(`Project Discovery: ${companyName}`);
-            const body = encodeURIComponent(`
-Hi Team,
-
-I have completed the Project Discovery framework. Here are my details:
-
-COMPANY: ${companyName}
-EST. FILES/VIEWS: ${nodesCount}
-TIMELINE: ${timeline}
-MAINTENANCE: ${maintenance}
-
-REQUIRED FEATURES:
-${featureNames.join('\n')}
-
-ESTIMATE GENERATED: $${totalInitialCost.toLocaleString()}
-Requires Engineering Retainer: ${requiresEngineering ? 'YES' : 'NO'}
-
-Let's discuss next steps!
-            `);
-            
-            document.getElementById('sales-email-btn').href = `mailto:sales@youragency.com?subject=${subject}&body=${body}`;
+            // Store Data for EmailJS
+            window.emailData = {
+                companyName: companyName,
+                nodesCount: nodesCount,
+                timeline: timeline,
+                maintenance: maintenance,
+                features: featureNames.join('\n'),
+                estimateTotal: totalInitialCost.toLocaleString(),
+                requiresEngineering: requiresEngineering ? 'YES' : 'NO'
+            };
 
             // Show Final Screen
             hideAllSteps();
             document.getElementById('form-header').classList.add('hidden');
             document.getElementById('progress-bar').style.width = '100%';
             document.getElementById('client-next-steps').classList.remove('hidden');
+        }
+
+        // EmailJS Send Function
+        function sendEmail() {
+            const btn = document.getElementById('sales-email-btn');
+            const originalText = btn.innerText;
+            btn.innerText = 'Sending...';
+            btn.disabled = true;
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+                        // Send email using the configured Service ID and Template ID
+            emailjs.send("service_h4afh4t", "template_51091t8", window.emailData)
+                .then(function(response) {
+                    btn.innerText = 'Sent Successfully!';
+                    btn.classList.remove('from-cyan-600', 'to-emerald-600', 'hover:from-cyan-500', 'hover:to-emerald-500');
+                    btn.classList.add('bg-emerald-500', 'hover:bg-emerald-500');
+                }, function(error) {
+                    console.error('FAILED...', error);
+                    btn.innerText = 'Error Sending - Try Again';
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-75', 'cursor-not-allowed');
+                });
         }
 
         // Modal Controls
