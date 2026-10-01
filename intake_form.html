@@ -67,10 +67,14 @@
             <div id="progress-bar" class="h-full bg-gradient-to-r from-cyan-500 to-amber-500 transition-all duration-500 ease-out w-0 shadow-[0_0_15px_rgba(6,182,212,0.5)]"></div>
         </div>
 
-        <div class="p-6 sm:p-8 md:p-12 relative z-10">
+                <div class="p-6 sm:p-8 md:p-12 relative z-10">
             <!-- Header -->
-            <div id="form-header" class="mb-10 text-center">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-800 border border-slate-700 mb-4 shadow-lg">
+            <div id="form-header" class="mb-10 text-center relative">
+                <a href="index.html" class="absolute top-0 left-0 text-slate-400 hover:text-white p-2 transition-colors flex items-center text-sm font-medium">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    Home
+                </a>
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-800 border border-slate-700 mb-4 shadow-lg mx-auto">
                     <svg class="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
                 </div>
                 <h1 class="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-2">Project Discovery & Scoping</h1>
@@ -289,13 +293,16 @@
                     </div>
 
                                         <div class="flex flex-col gap-4 justify-center">
-                        <button type="button" onclick="openPricingModal()" class="w-full px-6 py-3 rounded-lg font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-600 transition-colors">
-                            View Official Pricing Model
-                        </button>
-                        <button type="button" id="sales-email-btn" onclick="sendEmail()" class="w-full px-8 py-4 rounded-lg font-bold bg-gradient-to-r from-cyan-600 to-emerald-600 text-white hover:from-cyan-500 hover:to-emerald-500 transition-all shadow-[0_0_15px_rgba(16,185,129,0.4)] text-center text-lg">
-                            Email Sales to Proceed
-                        </button>
-                    </div>
+                                            <button type="button" onclick="openPricingModal()" class="w-full px-6 py-3 rounded-lg font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-600 transition-colors">
+                                                View Official Pricing Model
+                                            </button>
+                                            <button type="button" id="sales-email-btn" onclick="sendEmail()" class="w-full px-8 py-4 rounded-lg font-bold bg-gradient-to-r from-cyan-600 to-emerald-600 text-white hover:from-cyan-500 hover:to-emerald-500 transition-all shadow-[0_0_15px_rgba(16,185,129,0.4)] text-center text-lg">
+                                                Email Sales to Proceed
+                                            </button>
+                                            <a href="index.html" class="w-full px-6 py-3 mt-2 rounded-lg font-medium text-slate-400 hover:text-white text-center transition-colors">
+                                                ← Return to Home Portal
+                                            </a>
+                                        </div>
                 </section>
             </form>
         </div>
