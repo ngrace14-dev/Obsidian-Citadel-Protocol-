@@ -93,9 +93,14 @@
                             <input type="text" id="q_company" required class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 outline-none transition-all placeholder-slate-600">
                         </div>
 
-                        <div>
+                                                <div>
                             <label class="block text-sm font-medium text-slate-300 mb-2">What prompted you to start looking for a new website solution right now? <span class="text-cyan-500">*</span></label>
                             <textarea id="q_trigger" rows="2" required class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 outline-none transition-all placeholder-slate-600"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">In your own words, what is the ultimate goal for this website? (Beyond the technical features, what do you need it to achieve?) <span class="text-cyan-500">*</span></label>
+                            <textarea id="q_goals" rows="3" required class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 outline-none transition-all placeholder-slate-600"></textarea>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -513,8 +518,9 @@
             e.preventDefault();
             if (!validateStep(currentStep)) return;
             
-            // Gather Variables
+                        // Gather Variables
             const companyName = document.getElementById('q_company').value;
+            const projectGoals = document.getElementById('q_goals').value;
             const nodesCount = parseInt(document.getElementById('q_pages').value) || 0;
             const timeline = document.getElementById('q_timeline').value;
             const maintenance = document.querySelector('input[name="q_maintenance"]:checked').value;
@@ -584,9 +590,10 @@
 
                         document.getElementById('estimate-total').textContent = `$${totalInitialCost.toLocaleString()}`;
 
-            // Store Data for EmailJS
+                        // Store Data for EmailJS
             window.emailData = {
                 companyName: companyName,
+                projectGoals: projectGoals,
                 nodesCount: nodesCount,
                 timeline: timeline,
                 maintenance: maintenance,
